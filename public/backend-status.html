@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Status - Console de Conteúdo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .status-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .status-card h3 {
+            color: #495057;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .status-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #28a745;
+        }
+
+        .status-value.error {
+            color: #dc3545;
+        }
+
+        .status-value.warning {
+            color: #ffc107;
+        }
+
+        .endpoints {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .endpoints h3 {
+            color: #495057;
+            margin-bottom: 1rem;
+        }
+
+        .endpoint {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            border-left: 4px solid #28a745;
+            text-align: left;
+        }
+
+        .endpoint.method {
+            font-weight: 700;
+            color: #28a745;
+            margin-right: 0.5rem;
+        }
+
+        .endpoint.path {
+            font-family: 'Courier New', monospace;
+            color: #495057;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🚀</div>
+        <h1>Backend Status</h1>
+        <p class="subtitle">Console de Conteúdo - API Server</p>
+
+        <div class="status-grid">
+            <div class="status-card">
+                <h3>Status do Servidor</h3>
+                <div class="status-value" id="server-status">Carregando...</div>
+            </div>
+            <div class="status-card">
+                <h3>MongoDB</h3>
+                <div class="status-value" id="mongodb-status">Carregando...</div>
+            </div>
+            <div class="status-card">
+                <h3>Uptime</h3>
+                <div class="status-value" id="uptime">Carregando...</div>
+            </div>
+            <div class="status-card">
+                <h3>Requisições</h3>
+                <div class="status-value" id="requests">Carregando...</div>
+            </div>
+        </div>
+
+        <div class="endpoints">
+            <h3>Endpoints Disponíveis</h3>
+            <div class="endpoint">
+                <span class="endpoint method">GET</span>
+                <span class="endpoint path">/health</span>
+            </div>
+            <div class="endpoint">
+                <span class="endpoint method">POST</span>
+                <span class="endpoint path">/api/submit</span>
+            </div>
+            <div class="endpoint">
+                <span class="endpoint method">GET</span>
+                <span class="endpoint path">/api/data/:collection</span>
+            </div>
+            <div class="endpoint">
+                <span class="endpoint method">GET</span>
+                <span class="endpoint path">/api/stats</span>
+            </div>
+            <div class="endpoint">
+                <span class="endpoint method">GET</span>
+                <span class="endpoint path">/api/test</span>
+            </div>
+        </div>
+
+        <button class="refresh-btn" onclick="refreshStatus()">
+            🔄 Atualizar Status
+        </button>
+    </div>
+
+    <script>
+        const API_BASE = window.location.origin;
+
+        async function refreshStatus() {
+            const btn = document.querySelector('.refresh-btn');
+            btn.classList.add('loading');
+            btn.textContent = '🔄 Atualizando...';
+
+            try {
+                // Buscar dados de health
+                const healthResponse = await fetch(`${API_BASE}/health`);
+                const healthData = await healthResponse.json();
+
+                // Buscar estatísticas
+                const statsResponse = await fetch(`${API_BASE}/api/stats`);
+                const statsData = await statsResponse.json();
+
+                // Atualizar status do servidor
+                document.getElementById('server-status').textContent = 'Online';
+                document.getElementById('server-status').className = 'status-value';
+
+                // Atualizar status do MongoDB
+                const mongoStatus = healthData.mongodb === 'connected' ? 'Conectado' : 'Desconectado';
+                const mongoClass = healthData.mongodb === 'connected' ? 'status-value' : 'status-value error';
+                document.getElementById('mongodb-status').textContent = mongoStatus;
+                document.getElementById('mongodb-status').className = mongoClass;
+
+                // Atualizar uptime
+                document.getElementById('uptime').textContent = statsData.uptime || 'N/A';
+
+                // Atualizar requisições
+                document.getElementById('requests').textContent = statsData.totalRequests || 0;
+
+            } catch (error) {
+                console.error('Erro ao buscar status:', error);
+                document.getElementById('server-status').textContent = 'Erro';
+                document.getElementById('server-status').className = 'status-value error';
+                document.getElementById('mongodb-status').textContent = 'Erro';
+                document.getElementById('mongodb-status').className = 'status-value error';
+            }
+
+            btn.classList.remove('loading');
+            btn.textContent = '🔄 Atualizar Status';
+        }
+
+        // Carregar status inicial
+        refreshStatus();
+
+        // Atualizar a cada 30 segundos
+        setInterval(refreshStatus, 30000);
+    </script>
+</body>
+</html>

@@ -84,7 +84,7 @@ app.use(express.static('public'));
 
 // Rota raiz - servir página de status do backend
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/public/index.html');
+    res.sendFile(__dirname + '/public/backend-status.html');
 });
 
 // API - Inserir dados
