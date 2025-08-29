@@ -1,6 +1,5 @@
-// Configuração direta do MongoDB
-const MONGODB_URI = 'mongodb+srv://veloacademy:veloacademy@cluster0.mongodb.net/veloacademy?retryWrites=true&w=majority';
-const DB_NAME = 'veloacademy';
+// Configuração da API MongoDB
+const MONGODB_API_URL = '/api/mongodb';
 
 // Toggle de tema - com verificação de segurança
 const themeToggle = document.getElementById('theme-toggle');
@@ -144,32 +143,21 @@ async function submitData(collection, data) {
         // Fade out do formulário
         setTimeout(fadeOutForm, 300);
         
-        // Adicionar timestamp aos dados
-        const dataWithTimestamp = {
-            ...data,
-            created_at: new Date(),
-            timestamp: new Date().toISOString()
-        };
-        
-        // Conectar diretamente ao MongoDB usando a API REST do MongoDB Atlas
-        const response = await fetch(`https://data.mongodb-api.com/app/data-${DB_NAME}/endpoint/data/v1/action/insertOne`, {
+        // Enviar dados para a API que conecta diretamente ao MongoDB
+        const response = await fetch(MONGODB_API_URL, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'api-key': 'veloacademy', // Substitua pela sua API key real
-                'Access-Control-Request-Headers': 'Content-Type, api-key'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                dataSource: 'Cluster0',
-                database: DB_NAME,
                 collection: collection,
-                document: dataWithTimestamp
+                data: data
             })
         });
         
         const result = await response.json();
         
-        if (result.insertedId) {
+        if (result.success) {
             // Mostrar sucesso com GIF
             setTimeout(() => {
                 showFeedback('success');
@@ -190,7 +178,7 @@ async function submitData(collection, data) {
             return true;
         } else {
             // Mostrar toast de erro
-            showErrorToast('Falha ao salvar dados no MongoDB');
+            showErrorToast(result.message || 'Falha ao salvar dados no MongoDB');
             // Remover fade out
             const card = document.querySelector('.dashboard-card');
             if (card) card.classList.remove('form-fade-out');

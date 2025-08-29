@@ -1,8 +1,8 @@
 const { MongoClient } = require('mongodb');
 
-// Configuração do MongoDB
-const MONGODB_URI = 'mongodb+srv://veloacademy:veloacademy@cluster0.mongodb.net/veloacademy?retryWrites=true&w=majority';
-const DB_NAME = 'veloacademy';
+// Configuração do MongoDB usando variáveis de ambiente do Vercel
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://lucasgravina:nKQu8bSN6iZl8FPo@clustercentral.quqgq6x.mongodb.net/velohub?retryWrites=true&w=majority&appName=ClusterCentral';
+const DB_NAME = process.env.DB_NAME || 'console_conteudo';
 
 module.exports = async (req, res) => {
     // Configurar CORS
