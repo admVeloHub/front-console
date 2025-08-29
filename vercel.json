@@ -1,16 +1,41 @@
 {
   "version": 2,
-  "name": "console-conteudo-frontend",
+  "name": "console-conteudo-unificado",
+  "functions": {
+    "api/mongodb.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
   "builds": [
     {
-      "src": "public/**/*",
+      "src": "*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "css/**/*",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "js/**/*",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.png",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.gif",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/public/$1"
+      "dest": "/$1"
     }
   ]
 }

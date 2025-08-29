@@ -1,5 +1,5 @@
-// Configuração da API
-const API_BASE_URL = 'https://back-console.vercel.app';
+// Configuração da API MongoDB
+const MONGODB_API_URL = '/api/mongodb';
 
 // Toggle de tema - com verificação de segurança
 const themeToggle = document.getElementById('theme-toggle');
@@ -134,7 +134,7 @@ function fadeOutForm() {
     }
 }
 
-// Função para enviar dados
+// Função para enviar dados diretamente ao MongoDB
 async function submitData(collection, data) {
     try {
         // Mostrar loading
@@ -143,12 +143,16 @@ async function submitData(collection, data) {
         // Fade out do formulário
         setTimeout(fadeOutForm, 300);
         
-        const response = await fetch(`${API_BASE_URL}/api/submit`, {
+        // Enviar dados para a API que conecta diretamente ao MongoDB
+        const response = await fetch(MONGODB_API_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ collection, data })
+            body: JSON.stringify({
+                collection: collection,
+                data: data
+            })
         });
         
         const result = await response.json();
@@ -170,10 +174,11 @@ async function submitData(collection, data) {
                 if (card) card.classList.remove('form-fade-out');
             }, 4000);
             
+            console.log('Dados inseridos com sucesso no MongoDB:', result.insertedId);
             return true;
         } else {
             // Mostrar toast de erro
-            showErrorToast(result.message || 'Falha ao salvar dados');
+            showErrorToast(result.message || 'Falha ao salvar dados no MongoDB');
             // Remover fade out
             const card = document.querySelector('.dashboard-card');
             if (card) card.classList.remove('form-fade-out');
@@ -181,9 +186,9 @@ async function submitData(collection, data) {
             return false;
         }
     } catch (error) {
-        console.error('Erro ao enviar dados:', error);
+        console.error('Erro ao enviar dados para MongoDB:', error);
         // Mostrar toast de erro
-        showErrorToast('Erro de conexão. Tente novamente.');
+        showErrorToast('Erro de conexão com MongoDB. Tente novamente.');
         // Remover fade out
         const card = document.querySelector('.dashboard-card');
         if (card) card.classList.remove('form-fade-out');
