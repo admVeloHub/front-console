@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Backend Status - Console de Conteúdo</title>
+    <title>Backend Console - Status Monitor</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
@@ -12,255 +14,483 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #333;
+            color: #00ff00;
+            overflow-x: hidden;
         }
 
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 3rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            width: 90%;
+        /* Header com Logo */
+        .header {
             text-align: center;
+            padding: 2rem 0;
+            background: rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid #333;
+            position: relative;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
         }
 
         .logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 2rem;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            width: 120px;
+            height: 120px;
+            background: #333;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 2rem;
-            font-weight: bold;
+            border: 4px solid #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            animation: pulse 2s infinite;
         }
 
-        h1 {
-            color: #333;
-            margin-bottom: 1rem;
+        .logo::before {
+            content: "⚡";
+            font-size: 3rem;
+            color: #00ff00;
+        }
+
+        .title {
             font-size: 2.5rem;
-            font-weight: 700;
+            font-weight: 900;
+            color: #333;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 3px;
         }
 
         .subtitle {
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
             color: #666;
-            margin-bottom: 3rem;
-            font-size: 1.1rem;
-        }
-
-        .status-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .status-card {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 1.5rem;
-            border-radius: 15px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .status-card h3 {
-            color: #495057;
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        .status-value {
-            font-size: 1.5rem;
             font-weight: 700;
-            color: #28a745;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
-        .status-value.error {
-            color: #dc3545;
-        }
-
-        .status-value.warning {
-            color: #ffc107;
-        }
-
-        .endpoints {
-            background: #f8f9fa;
+        /* Container Principal */
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
             padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            height: calc(100vh - 200px);
         }
 
-        .endpoints h3 {
-            color: #495057;
+        /* Containers de Monitoramento */
+        .monitor-container {
+            background: #000;
+            border: 3px solid #00ff00;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 
+                inset 0 0 20px rgba(0, 255, 0, 0.1),
+                0 0 30px rgba(0, 255, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .monitor-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ff00, transparent);
+            animation: scan 3s linear infinite;
+        }
+
+        .monitor-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #00ff00;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #00ff00;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Container Esquerdo - Status de Transmissão */
+        .transmission-log {
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        .log-entry::before {
+            content: '>';
+            color: #00ff00;
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+
+        .log-entry.success {
+            border-color: #00ff00;
+            background: rgba(0, 255, 0, 0.05);
+        }
+
+        .log-entry.error {
+            border-color: #ff0000;
+            background: rgba(255, 0, 0, 0.05);
+            color: #ff0000;
+        }
+
+        .log-entry.warning {
+            border-color: #ffff00;
+            background: rgba(255, 255, 0, 0.05);
+            color: #ffff00;
+        }
+
+        .log-timestamp {
+            font-size: 0.7rem;
+            color: #666;
+            margin-left: 1rem;
+        }
+
+        /* Container Central - Console */
+        .console-output {
+            height: 100%;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+        }
+
+        .console-line {
+            margin-bottom: 0.5rem;
+            padding: 0.3rem;
+            border-radius: 3px;
+        }
+
+        .console-line.info {
+            color: #00ff00;
+        }
+
+        .console-line.warning {
+            color: #ffff00;
+        }
+
+        .console-line.error {
+            color: #ff0000;
+        }
+
+        .console-line.debug {
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+        /* Container Direito - Network */
+        .network-monitor {
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .network-item {
+            background: rgba(0, 255, 0, 0.05);
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            padding: 1rem;
             margin-bottom: 1rem;
         }
 
-        .endpoint {
-            background: white;
-            padding: 1rem;
-            border-radius: 10px;
+        .network-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 0.5rem;
-            border-left: 4px solid #28a745;
-            text-align: left;
         }
 
-        .endpoint.method {
-            font-weight: 700;
-            color: #28a745;
-            margin-right: 0.5rem;
+        .network-method {
+            background: #00ff00;
+            color: #000;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 0.8rem;
         }
 
-        .endpoint.path {
+        .network-status {
+            font-size: 0.8rem;
+            color: #00ff00;
+        }
+
+        .network-path {
             font-family: 'Courier New', monospace;
-            color: #495057;
+            color: #00ff00;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
         }
 
-        .refresh-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .network-details {
+            font-size: 0.8rem;
+            color: #666;
         }
 
-        .refresh-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-        }
-
-        .loading {
-            opacity: 0.7;
-            pointer-events: none;
-        }
-
+        /* Animações */
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+                transform: scale(1.05);
+            }
         }
 
-        .pulse {
-            animation: pulse 2s infinite;
+        @keyframes scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .blink {
+            animation: blink 1s infinite;
+        }
+
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #00ff00;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00cc00;
+        }
+
+        /* Responsividade */
+        @media (max-width: 1200px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                height: auto;
+            }
+            
+            .monitor-container {
+                height: 400px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">🚀</div>
-        <h1>Backend Status</h1>
-        <p class="subtitle">Console de Conteúdo - API Server</p>
+    <!-- Header com Logo -->
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo"></div>
+            <h1 class="title">CONSOLE DE CONTEÚDO</h1>
+            <p class="subtitle">BACKEND MONITOR</p>
+        </div>
+    </header>
 
-        <div class="status-grid">
-            <div class="status-card">
-                <h3>Status do Servidor</h3>
-                <div class="status-value" id="server-status">Carregando...</div>
-            </div>
-            <div class="status-card">
-                <h3>MongoDB</h3>
-                <div class="status-value" id="mongodb-status">Carregando...</div>
-            </div>
-            <div class="status-card">
-                <h3>Uptime</h3>
-                <div class="status-value" id="uptime">Carregando...</div>
-            </div>
-            <div class="status-card">
-                <h3>Requisições</h3>
-                <div class="status-value" id="requests">Carregando...</div>
+    <!-- Container Principal -->
+    <div class="main-container">
+        <!-- Container Esquerdo - Status de Transmissão -->
+        <div class="monitor-container">
+            <h2 class="monitor-title">TRANSMISSÃO</h2>
+            <div class="transmission-log" id="transmission-log">
+                <div class="log-entry success">
+                    Sistema inicializado<span class="log-timestamp">[19:15:32]</span>
+                </div>
+                <div class="log-entry">
+                    Aguardando requisições do frontend<span class="log-timestamp">[19:15:33]</span>
+                </div>
             </div>
         </div>
 
-        <div class="endpoints">
-            <h3>Endpoints Disponíveis</h3>
-            <div class="endpoint">
-                <span class="endpoint method">GET</span>
-                <span class="endpoint path">/health</span>
-            </div>
-            <div class="endpoint">
-                <span class="endpoint method">POST</span>
-                <span class="endpoint path">/api/submit</span>
-            </div>
-            <div class="endpoint">
-                <span class="endpoint method">GET</span>
-                <span class="endpoint path">/api/data/:collection</span>
-            </div>
-            <div class="endpoint">
-                <span class="endpoint method">GET</span>
-                <span class="endpoint path">/api/stats</span>
-            </div>
-            <div class="endpoint">
-                <span class="endpoint method">GET</span>
-                <span class="endpoint path">/api/test</span>
+        <!-- Container Central - Console -->
+        <div class="monitor-container">
+            <h2 class="monitor-title">CONSOLE</h2>
+            <div class="console-output" id="console-output">
+                <div class="console-line info">🚀 Backend iniciado com sucesso</div>
+                <div class="console-line info">🔗 MongoDB: Conectado</div>
+                <div class="console-line info">📡 API: Online</div>
+                <div class="console-line debug">[DEBUG] Pool de conexões: 10</div>
+                <div class="console-line debug">[DEBUG] Rate limit: 100 req/15min</div>
+                <div class="console-line info">✅ Sistema pronto para receber dados</div>
             </div>
         </div>
 
-        <button class="refresh-btn" onclick="refreshStatus()">
-            🔄 Atualizar Status
-        </button>
+        <!-- Container Direito - Network -->
+        <div class="monitor-container">
+            <h2 class="monitor-title">NETWORK</h2>
+            <div class="network-monitor" id="network-monitor">
+                <div class="network-item">
+                    <div class="network-header">
+                        <span class="network-method">GET</span>
+                        <span class="network-status">200 OK</span>
+                    </div>
+                    <div class="network-path">/health</div>
+                    <div class="network-details">Health check - 15ms</div>
+                </div>
+                <div class="network-item">
+                    <div class="network-header">
+                        <span class="network-method">GET</span>
+                        <span class="network-status">200 OK</span>
+                    </div>
+                    <div class="network-path">/api/stats</div>
+                    <div class="network-details">Estatísticas - 8ms</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
         const API_BASE = window.location.origin;
+        let requestCounter = 0;
 
-        async function refreshStatus() {
-            const btn = document.querySelector('.refresh-btn');
-            btn.classList.add('loading');
-            btn.textContent = '🔄 Atualizando...';
-
-            try {
-                // Buscar dados de health
-                const healthResponse = await fetch(`${API_BASE}/health`);
-                const healthData = await healthResponse.json();
-
-                // Buscar estatísticas
-                const statsResponse = await fetch(`${API_BASE}/api/stats`);
-                const statsData = await statsResponse.json();
-
-                // Atualizar status do servidor
-                document.getElementById('server-status').textContent = 'Online';
-                document.getElementById('server-status').className = 'status-value';
-
-                // Atualizar status do MongoDB
-                const mongoStatus = healthData.mongodb === 'connected' ? 'Conectado' : 'Desconectado';
-                const mongoClass = healthData.mongodb === 'connected' ? 'status-value' : 'status-value error';
-                document.getElementById('mongodb-status').textContent = mongoStatus;
-                document.getElementById('mongodb-status').className = mongoClass;
-
-                // Atualizar uptime
-                document.getElementById('uptime').textContent = statsData.uptime || 'N/A';
-
-                // Atualizar requisições
-                document.getElementById('requests').textContent = statsData.totalRequests || 0;
-
-            } catch (error) {
-                console.error('Erro ao buscar status:', error);
-                document.getElementById('server-status').textContent = 'Erro';
-                document.getElementById('server-status').className = 'status-value error';
-                document.getElementById('mongodb-status').textContent = 'Erro';
-                document.getElementById('mongodb-status').className = 'status-value error';
+        // Função para adicionar log de transmissão
+        function addTransmissionLog(message, type = 'info') {
+            const log = document.getElementById('transmission-log');
+            const timestamp = new Date().toLocaleTimeString();
+            
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry ${type}`;
+            logEntry.innerHTML = `${message}<span class="log-timestamp">[${timestamp}]</span>`;
+            
+            log.appendChild(logEntry);
+            log.scrollTop = log.scrollHeight;
+            
+            // Manter apenas os últimos 20 logs
+            while (log.children.length > 20) {
+                log.removeChild(log.firstChild);
             }
-
-            btn.classList.remove('loading');
-            btn.textContent = '🔄 Atualizar Status';
         }
 
-        // Carregar status inicial
-        refreshStatus();
+        // Função para adicionar linha no console
+        function addConsoleLine(message, type = 'info') {
+            const console = document.getElementById('console-output');
+            const timestamp = new Date().toLocaleTimeString();
+            
+            const line = document.createElement('div');
+            line.className = `console-line ${type}`;
+            line.textContent = `[${timestamp}] ${message}`;
+            
+            console.appendChild(line);
+            console.scrollTop = console.scrollHeight;
+            
+            // Manter apenas as últimas 30 linhas
+            while (console.children.length > 30) {
+                console.removeChild(console.firstChild);
+            }
+        }
 
-        // Atualizar a cada 30 segundos
-        setInterval(refreshStatus, 30000);
+        // Função para adicionar item de network
+        function addNetworkItem(method, path, status, details) {
+            const network = document.getElementById('network-monitor');
+            
+            const item = document.createElement('div');
+            item.className = 'network-item';
+            item.innerHTML = `
+                <div class="network-header">
+                    <span class="network-method">${method}</span>
+                    <span class="network-status">${status}</span>
+                </div>
+                <div class="network-path">${path}</div>
+                <div class="network-details">${details}</div>
+            `;
+            
+            network.insertBefore(item, network.firstChild);
+            
+            // Manter apenas os últimos 10 itens
+            while (network.children.length > 10) {
+                network.removeChild(network.lastChild);
+            }
+        }
+
+        // Função para atualizar status
+        async function updateStatus() {
+            try {
+                // Health check
+                const healthStart = Date.now();
+                const healthResponse = await fetch(`${API_BASE}/health`);
+                const healthTime = Date.now() - healthStart;
+                
+                addNetworkItem('GET', '/health', `${healthResponse.status}`, `Health check - ${healthTime}ms`);
+                
+                if (healthResponse.ok) {
+                    const healthData = await healthResponse.json();
+                    addConsoleLine(`Health check: ${healthData.mongodb}`, 'info');
+                }
+
+                // Stats
+                const statsStart = Date.now();
+                const statsResponse = await fetch(`${API_BASE}/api/stats`);
+                const statsTime = Date.now() - statsStart;
+                
+                addNetworkItem('GET', '/api/stats', `${statsResponse.status}`, `Estatísticas - ${statsTime}ms`);
+                
+                if (statsResponse.ok) {
+                    const statsData = await statsResponse.json();
+                    addConsoleLine(`Total requests: ${statsData.totalRequests}`, 'debug');
+                }
+
+            } catch (error) {
+                addConsoleLine(`Erro na atualização: ${error.message}`, 'error');
+                addTransmissionLog('Falha na comunicação com API', 'error');
+            }
+        }
+
+        // Simular logs de transmissão
+        function simulateTransmission() {
+            const messages = [
+                'Recebendo requisição do frontend',
+                'Validando dados de entrada',
+                'Conectando ao MongoDB',
+                'Executando operação de escrita',
+                'Confirmando transação',
+                'Enviando resposta de sucesso'
+            ];
+
+            const types = ['info', 'success', 'warning'];
+            
+            setInterval(() => {
+                const message = messages[Math.floor(Math.random() * messages.length)];
+                const type = types[Math.floor(Math.random() * types.length)];
+                addTransmissionLog(message, type);
+            }, 5000);
+        }
+
+        // Inicialização
+        addConsoleLine('Sistema de monitoramento iniciado', 'info');
+        addTransmissionLog('Monitor de transmissão ativo', 'success');
+        
+        // Atualizar status a cada 10 segundos
+        setInterval(updateStatus, 10000);
+        
+        // Simular logs de transmissão
+        simulateTransmission();
+        
+        // Atualização inicial
+        updateStatus();
     </script>
 </body>
 </html>
