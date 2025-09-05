@@ -1,5 +1,5 @@
 // Configuração da API MongoDB
-const MONGODB_API_URL = '/api/mongodb';
+const MONGODB_API_URL = '/api/test';
 
 // Toggle de tema - com verificação de segurança
 const themeToggle = document.getElementById('theme-toggle');
