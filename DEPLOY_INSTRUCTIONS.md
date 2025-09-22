@@ -4,7 +4,7 @@
 
 ### **Variáveis Obrigatórias:**
 ```
-MONGODB_URI=mongodb+srv://lucasgravina:nKQu8bSN6iZl8FPo@clustercentral.quqgq6x.mongodb.net/velohub?retryWrites=true&w=majority&appName=ClusterCentral
+MONGODB_URI=mongodb+srv://lucasgravina:<db_password>@velohubcentral.od7vwts.mongodb.net/?retryWrites=true&w=majority&appName=VelohubCentral
 MONGODB_DB_NAME=console_conteudo
 NODE_ENV=production
 CORS_ORIGIN=https://front-console.vercel.app
