@@ -1,345 +1,388 @@
-<<<<<<< HEAD
-# 🚀 Console de Conteúdo VeloHub v3.0.0
+# 🚀 Console de Conteúdo VeloHub - Frontend
+<!-- VERSION: v3.7.1 | DATE: 2024-12-19 | AUTHOR: VeloHub Development Team -->
 
-## 📋 Descrição
-Aplicação React unificada que integra todas as funcionalidades do Console de Conteúdo VeloHub, incluindo IGP Dashboard, Artigos, Velonews e Bot Perguntas.
+## 📋 **Descrição**
+Aplicação React completa para o Console de Conteúdo VeloHub. Sistema unificado que integra todas as funcionalidades de gestão de conteúdo, incluindo dashboard, artigos, velonews, bot perguntas, serviços e sistema de usuários com autenticação Google OAuth.
 
-## 🎯 Funcionalidades
-- **Dashboard Principal**: Navegação unificada entre todas as funcionalidades
-- **IGP Dashboard**: Métricas e relatórios com gráficos interativos
-- **Artigos**: Criação e gerenciamento de artigos
-- **Velonews**: Publicação de notícias e alertas críticos
-- **Bot Perguntas**: Configuração de perguntas e respostas do chatbot
-- **Tema Escuro/Claro**: Alternância de temas com persistência
-- **Design Responsivo**: Interface adaptável para todos os dispositivos
+## 🎯 **Funcionalidades Principais**
 
-## 🛠️ Tecnologias
-- **Frontend**: React 18, Material-UI, Recharts
-- **Backend**: Express.js, Node.js
-- **Estilização**: CSS Custom Properties, Material-UI Theme
-- **Fontes**: Poppins (principal), Anton (secundária)
+### **🔐 Sistema de Autenticação**
+- **Google OAuth 2.0** - Login seguro com Google
+- **Sistema de Permissões** - Controle granular de acesso
+- **Gerenciamento de Usuários** - CRUD completo via ConfigPage
+- **Proteção de Rotas** - Acesso baseado em permissões
 
-## 🚀 Instalação e Execução
+### **📊 Dashboard Unificado**
+- **Cards Dinâmicos** - Renderização baseada em permissões
+- **Navegação Intuitiva** - Interface limpa e organizada
+- **Status da API** - Monitoramento em tempo real
+- **Tema Escuro/Claro** - Alternância com persistência
 
-### Pré-requisitos
+### **📝 Módulos de Conteúdo**
+- **Artigos** - Criação e gerenciamento com categorias
+- **Velonews** - Publicação de notícias e alertas
+- **Bot Perguntas** - Configuração de FAQ do chatbot
+- **IGP Dashboard** - Métricas e relatórios
+
+### **⚙️ Sistema de Serviços**
+- **5 Módulos de Serviços** - Crédito Trabalhador, Crédito Pessoal, Antecipação, Pagamento Antecipado, IRPF
+- **3 Status por Serviço** - Verde (On), Amarelo (Revisão), Vermelho (Off)
+- **Integração Backend** - API completa para controle de status
+- **Interface de Controle** - Console dedicado para administração
+
+### **👥 Gestão de Usuários**
+- **Página de Configuração** - Gerenciamento completo de usuários
+- **Sistema de Permissões** - Controle granular por módulo
+- **Tipos de Tickets** - Configuração de categorias
+- **Modal de 2 Etapas** - Interface intuitiva para criação
+
+## 🛠️ **Tecnologias**
+
+### **Frontend**
+- **React 18** - Framework principal
+- **Material-UI** - Componentes e tema
+- **React Router** - Navegação
+- **Google OAuth** - Autenticação
+- **Axios** - Requisições HTTP
+- **Recharts** - Gráficos e visualizações
+
+### **Estilização**
+- **CSS Custom Properties** - Variáveis de tema
+- **Material-UI Theme** - Sistema de temas
+- **Responsive Design** - Mobile-first
+- **Animações CSS** - Transições suaves
+
+### **Fontes**
+- **Poppins** - Fonte principal
+- **Anton** - Fonte secundária
+
+## 🚀 **Instalação e Execução**
+
+### **Pré-requisitos**
 - Node.js >= 16.0.0
 - npm >= 8.0.0
+- Conta Google para OAuth (opcional)
 
-### Instalação
+### **Instalação**
 ```bash
+# Clonar repositório
+git clone https://github.com/admVeloHub/front-console.git
+cd front-console
+
 # Instalar dependências
 npm install
 
-# Executar em modo desenvolvimento
-npm run dev
+# Configurar variáveis de ambiente
+cp .env.example .env
+# Editar .env com suas configurações
 
-# Ou executar separadamente:
-npm start          # Frontend React (porta 3000)
-npm run server     # Backend Express (porta 3001)
-```
-
-### Build para Produção
-```bash
-# Build do React
-npm run build
-
-# Executar em produção
-npm run build:production
-```
-
-## 📁 Estrutura do Projeto
-```
-console-conteudo-unified/
-├── src/                    # Código fonte React
-│   ├── components/         # Componentes reutilizáveis
-│   ├── pages/             # Páginas da aplicação
-│   ├── services/          # Serviços e APIs
-│   ├── styles/            # Estilos e temas
-│   └── utils/             # Utilitários
-├── backend/               # Servidor Express.js
-│   ├── routes/            # Rotas da API
-│   └── server.js          # Servidor principal
-├── public/                # Arquivos estáticos
-└── package.json           # Dependências e scripts
-```
-
-## 🎨 Tema VeloHub
-- **Cores Principais**: Azul (#1634FF), Azul Escuro (#000058), Azul Claro (#1694FF)
-- **Cores Secundárias**: Azul Opaco (#006AB9), Amarelo (#FCC200), Verde (#15A237)
-- **Tipografia**: Poppins (principal), Anton (secundária)
-- **Tema Escuro**: Implementado com variáveis CSS
-
-## 📊 API Endpoints
-- `GET /api/health` - Status da API
-- `GET /api/artigos` - Listar artigos
-- `POST /api/artigos` - Criar artigo
-- `GET /api/velonews` - Listar velonews
-- `POST /api/velonews` - Criar velonews
-- `GET /api/bot-perguntas` - Listar perguntas do bot
-- `POST /api/bot-perguntas` - Criar pergunta do bot
-- `GET /api/igp/metrics` - Obter métricas IGP
-- `GET /api/igp/reports` - Obter relatórios IGP
-
-## 🔧 Configuração
-1. Copiar `.env.example` para `.env`
-2. Configurar variáveis de ambiente
-3. Executar `npm install`
-4. Executar `npm run dev`
-
-## 📝 Versão
-- **Versão Atual**: 3.0.0
-- **Data**: 2024-12-19
-- **Autor**: VeloHub Development Team
-
-## 🎯 Próximos Passos
-- [ ] Integração com MongoDB real
-- [ ] Sistema de autenticação
-- [ ] Testes automatizados
-- [ ] Deploy em produção
-- [ ] Documentação da API
-
----
-*Desenvolvido com ❤️ pela equipe VeloHub*
-=======
-# 🚀 Backend API - Console de Conteúdo VeloHub
-<!-- VERSION: v3.1.0 | DATE: 2024-12-19 | AUTHOR: VeloHub Development Team -->
-
-## 📋 **Descrição**
-Backend API para o Console de Conteúdo VeloHub. Esta é uma API RESTful construída com Express.js e MongoDB, responsável por gerenciar artigos, velonews, perguntas do bot e métricas IGP.
-
-## 🛠️ **Tecnologias**
-- **Node.js** (>=16.0.0)
-- **Express.js** - Framework web
-- **MongoDB** - Banco de dados
-- **Socket.IO** - WebSocket para monitoramento em tempo real
-- **CORS** - Cross-origin resource sharing
-- **Helmet** - Segurança
-- **Rate Limiting** - Controle de requisições
-
-## 📁 **Estrutura do Projeto**
-```
-backend-deploy/
-├── backend/
-│   ├── config/
-│   │   ├── database.js          # Configuração do MongoDB
-│   │   └── collections.js       # Configuração das collections
-│   ├── middleware/
-│   │   └── monitoring.js        # Middleware de monitoramento
-│   ├── models/
-│   │   ├── Artigos.js          # Modelo de artigos
-│   │   ├── BotPerguntas.js     # Modelo de perguntas
-│   │   └── Velonews.js         # Modelo de velonews
-│   ├── public/
-│   │   └── monitor.html        # Monitor Skynet (interface)
-│   ├── routes/
-│   │   ├── artigos.js          # Rotas de artigos
-│   │   ├── botPerguntas.js     # Rotas de perguntas
-│   │   ├── igp.js              # Rotas de métricas IGP
-│   │   └── velonews.js         # Rotas de velonews
-│   └── server.js               # Servidor principal
-├── package.json                # Dependências do projeto
-├── env.example                 # Exemplo de variáveis de ambiente
-└── README.md                   # Este arquivo
-```
-
-## 🔧 **Configuração**
-
-### **1. Instalar Dependências**
-```bash
-npm install
-```
-
-### **2. Configurar Variáveis de Ambiente**
-Copie o arquivo `env.example` para `.env` e configure as variáveis:
-
-```bash
-cp env.example .env
-```
-
-**Variáveis obrigatórias:**
-- `MONGODB_URI` - String de conexão do MongoDB
-- `CORS_ORIGIN` - URL do frontend (ex: https://front-console.vercel.app)
-
-### **3. Configuração do MongoDB**
-Para produção, use MongoDB Atlas:
-1. Crie uma conta no [MongoDB Atlas](https://www.mongodb.com/atlas)
-2. Crie um cluster
-3. Configure a string de conexão no `.env`
-
-**Exemplo de MONGODB_URI:**
-```
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/console-conteudo-velohub
-```
-
-## 🚀 **Deploy**
-
-### **Opção 1: Railway**
-1. Conecte sua conta GitHub ao Railway
-2. Selecione este repositório
-3. Configure as variáveis de ambiente
-4. Deploy automático
-
-### **Opção 2: Render**
-1. Conecte sua conta GitHub ao Render
-2. Crie um novo Web Service
-3. Selecione este repositório
-4. Configure:
-   - **Build Command:** `npm install`
-   - **Start Command:** `npm start`
-   - **Environment:** Node
-5. Configure as variáveis de ambiente
-6. Deploy
-
-### **Opção 3: Heroku**
-1. Instale o Heroku CLI
-2. Crie um novo app:
-   ```bash
-   heroku create seu-app-backend
-   ```
-3. Configure as variáveis de ambiente:
-   ```bash
-   heroku config:set MONGODB_URI=sua-string-de-conexao
-   heroku config:set CORS_ORIGIN=https://front-console.vercel.app
-   ```
-4. Deploy:
-   ```bash
-   git push heroku main
-   ```
-
-### **Opção 4: DigitalOcean App Platform**
-1. Conecte sua conta GitHub
-2. Crie um novo App
-3. Selecione este repositório
-4. Configure:
-   - **Source Directory:** `/`
-   - **Build Command:** `npm install`
-   - **Run Command:** `npm start`
-5. Configure as variáveis de ambiente
-6. Deploy
-
-## 🔗 **Endpoints da API**
-
-### **Health Check**
-- `GET /api/health` - Status da API e banco de dados
-
-### **Artigos**
-- `GET /api/artigos` - Listar todos os artigos
-- `POST /api/artigos` - Criar novo artigo
-- `PUT /api/artigos/:id` - Atualizar artigo
-- `DELETE /api/artigos/:id` - Deletar artigo
-
-### **Velonews**
-- `GET /api/velonews` - Listar todas as velonews
-- `POST /api/velonews` - Criar nova velonews
-- `PUT /api/velonews/:id` - Atualizar velonews
-- `DELETE /api/velonews/:id` - Deletar velonews
-
-### **Bot Perguntas**
-- `GET /api/bot-perguntas` - Listar todas as perguntas
-- `POST /api/bot-perguntas` - Criar nova pergunta
-- `PUT /api/bot-perguntas/:id` - Atualizar pergunta
-- `DELETE /api/bot-perguntas/:id` - Deletar pergunta
-
-### **IGP (Métricas)**
-- `GET /api/igp/metrics` - Obter métricas
-- `GET /api/igp/reports` - Obter relatórios
-- `POST /api/igp/export/:format` - Exportar dados
-
-### **Monitor Skynet**
-- `GET /monitor` - Interface de monitoramento em tempo real
-- WebSocket em tempo real para tráfego da API
-- Console logs, tráfego de API e visualização JSON
-
-## 🔒 **Segurança**
-- **CORS** configurado para o domínio do frontend
-- **Helmet** para headers de segurança
-- **Rate Limiting** (100 requests por 15 minutos)
-- **Validação** de entrada de dados
-- **Sanitização** de dados
-
-## 📊 **Monitoramento**
-- Health check endpoint para verificar status
-- Logs estruturados
-- Tratamento de erros centralizado
-
-## 🧪 **Testando a API**
-
-### **Localmente**
-```bash
+# Executar em desenvolvimento
 npm start
 ```
 
-### **Verificar se está funcionando**
+### **Variáveis de Ambiente**
 ```bash
-curl https://seu-backend-url.com/api/health
+# Google OAuth (opcional)
+REACT_APP_GOOGLE_CLIENT_ID=seu_client_id
+
+# API Backend
+REACT_APP_API_URL=https://back-console.vercel.app/api
+
+# Modo de desenvolvimento
+REACT_APP_DEV_MODE=true
 ```
 
-## 🔄 **Atualização do Frontend**
-Após o deploy do backend, atualize o frontend:
+## 📁 **Estrutura do Projeto**
+```
+front-console/
+├── src/
+│   ├── components/           # Componentes reutilizáveis
+│   │   ├── common/          # Header, Footer, BackButton
+│   │   └── Dashboard/       # DashboardCard
+│   ├── contexts/            # Contextos React
+│   │   └── AuthContext.jsx  # Autenticação e permissões
+│   ├── pages/               # Páginas da aplicação
+│   │   ├── DashboardPage.jsx    # Dashboard principal
+│   │   ├── ArtigosPage.jsx      # Gestão de artigos
+│   │   ├── VelonewsPage.jsx     # Gestão de velonews
+│   │   ├── BotPerguntasPage.jsx # Gestão de perguntas
+│   │   ├── ServicosPage.jsx     # Console de serviços
+│   │   ├── ConfigPage.jsx       # Configuração de usuários
+│   │   ├── LoginPage.jsx        # Página de login
+│   │   └── IGPPage.jsx          # Dashboard IGP
+│   ├── services/            # Serviços e APIs
+│   │   ├── api.js           # Cliente HTTP principal
+│   │   ├── userService.js   # Serviço de usuários
+│   │   └── userPingService.js # Sistema de ping
+│   ├── styles/              # Estilos e temas
+│   │   ├── theme.js         # Tema Material-UI
+│   │   └── globals.css      # Estilos globais
+│   ├── config/              # Configurações
+│   │   └── google.js        # Configuração Google OAuth
+│   └── App.jsx              # Componente principal
+├── public/                  # Arquivos estáticos
+├── package.json            # Dependências e scripts
+└── README.md               # Este arquivo
+```
 
-1. Edite `src/services/api.js`
-2. Altere a URL base:
-   ```javascript
-   const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://seu-backend-url.com/api';
-   ```
-3. Configure a variável de ambiente no Vercel:
-   ```
-   REACT_APP_API_URL=https://seu-backend-url.com/api
-   ```
+## 🎨 **Sistema de Temas**
 
-## 📝 **Logs e Debugging**
-- Logs são exibidos no console
-- Use `NODE_ENV=development` para logs detalhados
-- Health check retorna status do banco de dados
+### **Paleta de Cores VeloHub**
+```css
+/* Cores Principais */
+--white: #F3F7FC        /* Tom de branco */
+--gray: #272A30         /* Cinza */
+--blue-dark: #000058    /* Azul Escuro */
+--blue-medium: #1634FF  /* Azul Médio */
+--blue-light: #1694FF   /* Azul Claro */
+
+/* Cores Secundárias */
+--blue-opaque: #006AB9  /* Azul Opaco */
+--yellow: #FCC200       /* Amarelo */
+--green: #15A237        /* Verde */
+```
+
+### **Tema Escuro**
+- **Fundo:** #272A30 (cinza escuro)
+- **Containers:** #323a42 (cinza médio)
+- **Header:** #006AB9 (azul opaco)
+- **Textos:** #F3F7FC (branco suave)
+
+## 🔧 **Scripts Disponíveis**
+
+```bash
+# Desenvolvimento
+npm start              # Servidor de desenvolvimento (porta 3000)
+npm run dev           # Alias para npm start
+
+# Build
+npm run build         # Build de produção
+npm run build:analyze # Build com análise de bundle
+
+# Testes
+npm test              # Executar testes
+npm run test:coverage # Testes com cobertura
+
+# Linting
+npm run lint          # ESLint
+npm run lint:fix      # ESLint com correção automática
+```
+
+## 📊 **Sistema de Permissões**
+
+### **Módulos Disponíveis**
+- **artigos** - Acesso ao módulo de artigos
+- **velonews** - Acesso ao módulo de velonews
+- **botPerguntas** - Acesso ao módulo de perguntas
+- **igp** - Acesso ao dashboard IGP
+- **servicos** - Acesso ao console de serviços
+- **config** - Acesso à página de configuração
+- **chamadosInternos** - Acesso aos chamados internos
+- **funcionarios** - Acesso ao módulo de funcionários
+- **qualidade** - Acesso ao módulo de qualidade
+- **capacity** - Acesso ao módulo de capacidade
+
+### **Tipos de Tickets**
+- **artigos** - Tickets relacionados a artigos
+- **velonews** - Tickets relacionados a velonews
+- **botPerguntas** - Tickets relacionados ao bot
+- **igp** - Tickets relacionados ao IGP
+- **servicos** - Tickets relacionados aos serviços
+- **geral** - Tickets gerais
+
+## 🔗 **Integração com Backend**
+
+### **Endpoints Principais**
+```javascript
+// Usuários
+GET    /api/users              # Listar usuários
+POST   /api/users              # Criar usuário
+PUT    /api/users/:email       # Atualizar usuário
+DELETE /api/users/:email       # Deletar usuário
+
+// Serviços
+GET    /api/module-status      # Status dos módulos
+POST   /api/module-status      # Atualizar status
+PUT    /api/module-status      # Modificar status
+
+// Ping do Usuário
+POST   /api/user-ping          # Ping de usuário logado
+```
+
+### **Sistema de Ping**
+- **Automático** após login bem-sucedido
+- **CollectionId** baseado em permissões
+- **Tratamento de erros** sem interromper login
+- **Debug** em modo desenvolvimento
+
+## 🚀 **Deploy**
+
+### **Vercel (Recomendado)**
+1. Conecte sua conta GitHub ao Vercel
+2. Selecione este repositório
+3. Configure as variáveis de ambiente
+4. Deploy automático a cada push
+
+### **Netlify**
+1. Conecte sua conta GitHub ao Netlify
+2. Configure build command: `npm run build`
+3. Configure publish directory: `build`
+4. Configure variáveis de ambiente
+
+### **GitHub Pages**
+   ```bash
+# Instalar gh-pages
+npm install --save-dev gh-pages
+
+# Adicionar script no package.json
+"homepage": "https://admVeloHub.github.io/front-console",
+"scripts": {
+  "predeploy": "npm run build",
+  "deploy": "gh-pages -d build"
+}
+
+# Deploy
+npm run deploy
+```
+
+## 🧪 **Testes**
+
+### **Executar Testes**
+```bash
+# Todos os testes
+npm test
+
+# Testes com watch
+npm test -- --watch
+
+# Testes com cobertura
+npm run test:coverage
+```
+
+### **Estrutura de Testes**
+```
+src/
+├── __tests__/           # Testes unitários
+├── components/          # Testes de componentes
+└── services/           # Testes de serviços
+```
+
+## 📱 **Responsividade**
+
+### **Breakpoints**
+- **Mobile:** < 768px
+- **Tablet:** 768px - 1024px
+- **Desktop:** > 1024px
+
+### **Adaptações Mobile**
+- **Cards** em coluna única
+- **Navegação** simplificada
+- **Botões** maiores para touch
+- **Textos** otimizados para leitura
+
+## 🔒 **Segurança**
+
+### **Autenticação**
+- **Google OAuth 2.0** - Padrão da indústria
+- **JWT Tokens** - Gerenciamento de sessão
+- **Proteção de Rotas** - Verificação de permissões
+
+### **Validação**
+- **Input Sanitization** - Prevenção de XSS
+- **CORS** - Controle de origem
+- **Rate Limiting** - Prevenção de spam
+
+## 📈 **Performance**
+
+### **Otimizações**
+- **Code Splitting** - Carregamento sob demanda
+- **Lazy Loading** - Componentes preguiçosos
+- **Memoização** - useMemo e useCallback
+- **Bundle Analysis** - Análise de tamanho
+
+### **Métricas**
+- **First Contentful Paint** < 1.5s
+- **Largest Contentful Paint** < 2.5s
+- **Cumulative Layout Shift** < 0.1
 
 ## 🆘 **Troubleshooting**
 
-### **Erro de Conexão MongoDB**
-- Verifique se a string de conexão está correta
-- Confirme se o IP está liberado no MongoDB Atlas
-- Verifique se o usuário tem permissões
+### **Problemas Comuns**
 
-### **Erro CORS**
-- Confirme se `CORS_ORIGIN` está configurado corretamente
-- Verifique se o frontend está usando a URL correta
+#### **Erro de CORS**
+```bash
+# Verificar se o backend está configurado corretamente
+# Verificar REACT_APP_API_URL no .env
+```
 
-### **Rate Limit**
-- Ajuste `RATE_LIMIT_MAX_REQUESTS` se necessário
-- Verifique se não há muitas requisições simultâneas
+#### **Google OAuth não funciona**
+```bash
+# Verificar REACT_APP_GOOGLE_CLIENT_ID
+# Verificar domínios autorizados no Google Console
+```
+
+#### **Permissões não funcionam**
+```bash
+# Verificar se o usuário está cadastrado na ConfigPage
+# Verificar se as permissões estão corretas no banco
+```
+
+### **Logs de Debug**
+```bash
+# Ativar modo debug
+REACT_APP_DEV_MODE=true npm start
+
+# Verificar console do navegador
+# Verificar Network tab para requisições
+```
 
 ## 📞 **Suporte**
-Para suporte técnico, entre em contato com a equipe de desenvolvimento VeloHub.
+
+### **Documentação**
+- **API Docs:** [Backend Repository](https://github.com/admVeloHub/back-console)
+- **Layout Guidelines:** `LAYOUT_GUIDELINES.md`
+- **Deploy Log:** `DEPLOY_LOG.md`
+
+### **Contato**
+- **Equipe:** VeloHub Development Team
+- **Email:** dev@velohub.com.br
+- **Issues:** [GitHub Issues](https://github.com/admVeloHub/front-console/issues)
+
+## 📝 **Changelog**
+
+### **v3.7.1 (2024-12-19)**
+- ✅ Sistema completo de serviços com 5 módulos
+- ✅ Card Config reposicionado no canto inferior direito
+- ✅ Nova ordem dos cards no dashboard
+- ✅ Usuário gravina dev com acesso total
+- ✅ Sistema de permissões completo para serviços
+- ✅ Integração com back-console via servicesAPI
+- ✅ Sistema de toast para notificações
+
+### **v3.6.2 (2024-12-19)**
+- ✅ Correção do modal 'Gerenciar Permissões'
+- ✅ Detecção automática de formato de dados MongoDB
+- ✅ Correção de referências de campos
+
+### **v3.6.0 (2024-12-19)**
+- ✅ Sistema completo de usuários integrado com MongoDB
+- ✅ API de usuários completa (6 endpoints)
+- ✅ Sistema de autenticação via MongoDB
+- ✅ Gerenciamento de usuários na página Config
+
+## 🎯 **Próximos Passos**
+- [ ] Implementar testes automatizados
+- [ ] Adicionar PWA capabilities
+- [ ] Implementar cache offline
+- [ ] Adicionar analytics
+- [ ] Otimizar performance
+- [ ] Implementar CI/CD
 
 ---
-**Versão:** 3.1.0  
+
+**Versão:** 3.7.1  
 **Data:** 2024-12-19  
 **Autor:** VeloHub Development Team
+**Licença:** MIT
 
-## 🔍 **Monitor Skynet**
-
-O Monitor Skynet é uma interface de monitoramento em tempo real que permite observar o funcionamento da API. Acesse através da URL:
-
-```
-https://sua-url-backend.com/monitor
-```
-
-### **Características do Monitor:**
-- **Design:** Background preto com tema futurístico
-- **Título:** "MONITOR SKYNET" em fonte Anton
-- **3 Containers Verticais:**
-  - **Esquerda:** Console do navegador em tempo real
-  - **Central:** Tráfego da API mostrando:
-    - Entrada recebida
-    - Origem (Artigo, Velonews, Bot Perguntas, IGP)
-    - Transmitindo para DB
-    - Concluído/Erro
-  - **Direita:** JSON corrente dos dados sendo processados
-
-### **Funcionalidades:**
-- **WebSocket em tempo real** para comunicação instantânea
-- **Logs coloridos** (info, success, warning, error)
-- **Status de conexão** visual
-- **Buttons para limpar** cada painel
-- **Animações** para entradas de tráfego
-- **Auto-scroll** nos painéis
->>>>>>> bdce0b48cb5cbb7b2cf78af9d0929933c5816780
+*Desenvolvido com ❤️ pela equipe VeloHub*
