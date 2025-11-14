@@ -1,5 +1,56 @@
 # Deploy Log - Console de Conteúdo VeloHub
-<!-- VERSION: v1.37.0 | DATE: 2025-11-14 | AUTHOR: VeloHub Development Team -->
+<!-- VERSION: v1.38.0 | DATE: 2025-11-14 | AUTHOR: VeloHub Development Team -->
+
+## Push GitHub - Permitir Salvar Módulos e Temas sem Aulas - 2025-11-14 16:48
+
+### Informações do Push
+- **Tipo:** Push GitHub
+- **Data/Hora:** 2025-11-14 16:48 BRT
+- **Versão:** v1.38.0
+- **Status:** Concluído
+- **Commit:** 5a4e72a
+
+### Arquivos Modificados
+1. `src/pages/AcademyPage.jsx` - v1.2.4
+   - Removida validação que excluía seções sem aulas na função `validarELimparCurso`
+   - Removida validação que excluía módulos sem seções
+   - Garantido que `lessons` seja sempre um array (mesmo vazio) quando não existir
+   - Ajustada função `salvarTema` para garantir array de lessons vazio quando necessário
+   - Ajustada função `salvarModulo` para garantir array de sections vazio quando necessário
+   - Adicionada validação usando `validarELimparCurso` antes de enviar em ambas funções
+   - Melhorado tratamento de erros com mensagens mais detalhadas
+
+### Descrição
+Ajuste do frontend para permitir salvar módulos e temas sem aulas, removendo validações restritivas:
+
+**🔧 Alterações Implementadas:**
+- **Função `validarELimparCurso`:** Removidos filtros que excluíam seções sem aulas e módulos sem seções
+- **Função `salvarTema`:** Garantido que tema sempre tenha array de `lessons` (mesmo vazio)
+- **Função `salvarModulo`:** Garantido que módulo sempre tenha array de `sections` (mesmo vazio)
+- **Validação:** Mantida validação de estrutura, mas permitindo arrays vazios
+
+**📋 Funcionalidades Permitidas:**
+- ✅ Salvar módulos sem seções
+- ✅ Salvar temas sem aulas
+- ✅ Criar estrutura gradualmente (curso → módulo → tema → aula)
+
+**⚠️ Observação Importante:**
+- Frontend ajustado e pronto
+- Backend ainda precisa ser ajustado para remover validação que exige `lessons.length > 0`
+- Erro 500 pode continuar ocorrendo até ajuste do backend
+
+### Impacto
+- ✅ **Flexibilidade aumentada** - Permite criar estrutura gradualmente
+- ✅ **UX melhorada** - Usuário pode salvar módulos/temas e adicionar conteúdo depois
+- ✅ **Validação mantida** - Estrutura ainda é validada, mas permite arrays vazios
+- ⚠️ **Aguardando backend** - Necessário ajuste no backend para funcionar completamente
+
+### Próximos Passos
+1. Ajustar backend para remover validação obrigatória de aulas
+2. Testar salvamento de módulos/temas sem aulas após ajuste do backend
+3. Validar que estrutura gradual funciona corretamente
+
+---
 
 ## Push GitHub - Correção do Payload do Config - 2025-11-14 11:16
 
