@@ -1,4 +1,4 @@
-// VERSION: v1.2.3 | DATE: 2025-01-30 | AUTHOR: VeloHub Development Team
+// VERSION: v1.2.4 | DATE: 2025-11-14 | AUTHOR: VeloHub Development Team
 import React, { useState, useEffect } from 'react';
 import {
   Container,
@@ -351,20 +351,17 @@ const AcademyPage = () => {
                 // Manter apenas aulas que têm dados mínimos válidos
                 return lesson.lessonId && lesson.lessonTitulo;
               });
+            } else {
+              // ✅ Garantir que sections sempre têm array de lessons (mesmo que vazio)
+              sectionLimpa.lessons = [];
             }
             
             return sectionLimpa;
-          }).filter(section => {
-            // Manter apenas seções que têm pelo menos uma aula
-            return section.lessons && section.lessons.length > 0;
-          });
+          }); // ✅ Removido filtro que excluía seções sem aulas
         }
         
         return moduloLimpo;
-      }).filter(modulo => {
-        // Manter apenas módulos que têm pelo menos uma seção
-        return modulo.sections && modulo.sections.length > 0;
-      });
+      }); // ✅ Removido filtro que excluía módulos sem seções - permite módulos vazios
     }
     
     return cursoValidado;
@@ -554,15 +551,29 @@ const AcademyPage = () => {
       if (moduloEditando) {
         const index = modulos.findIndex(m => m.moduleId === moduloEditando.moduleId);
         if (index >= 0) {
-          modulos[index] = { ...modulos[index], ...formModulo };
+          // ✅ Garantir que o módulo sempre tem array de sections (mesmo que vazio)
+          modulos[index] = { 
+            ...modulos[index], 
+            ...formModulo,
+            sections: formModulo.sections || modulos[index].sections || []
+          };
         }
       } else {
-        modulos.push(formModulo);
+        // ✅ Garantir que novo módulo tem array de sections (mesmo que vazio)
+        modulos.push({
+          ...formModulo,
+          sections: formModulo.sections || []
+        });
       }
       
-      await academyAPI.cursosConteudo.update(curso._id, {
+      // ✅ Validar e limpar o curso antes de enviar (mas sem filtrar módulos/seções sem aulas)
+      const cursoLimpo = validarELimparCurso({
         ...curso,
-        modules: modulos,
+        modules: modulos
+      });
+      
+      await academyAPI.cursosConteudo.update(curso._id, {
+        ...cursoLimpo,
         version: (curso.version || 1) + 1
       });
       
@@ -571,7 +582,8 @@ const AcademyPage = () => {
       carregarCursos();
     } catch (error) {
       console.error('Erro ao salvar módulo:', error);
-      mostrarSnackbar('Erro ao salvar módulo', 'error');
+      const errorMessage = error.response?.data?.error || error.message || 'Erro ao salvar módulo';
+      mostrarSnackbar(`Erro ao salvar módulo: ${errorMessage}`, 'error');
     }
   };
   
@@ -758,17 +770,31 @@ const AcademyPage = () => {
         if (temaEditando) {
           const temaIndex = sections.findIndex(t => t.temaNome === temaEditando.temaNome);
           if (temaIndex >= 0) {
-            sections[temaIndex] = { ...sections[temaIndex], ...formTema };
+            // ✅ Garantir que o tema sempre tem array de lessons (mesmo que vazio)
+            sections[temaIndex] = { 
+              ...sections[temaIndex], 
+              ...formTema,
+              lessons: formTema.lessons || sections[temaIndex].lessons || []
+            };
           }
         } else {
-          sections.push(formTema);
+          // ✅ Garantir que novo tema tem array de lessons (mesmo que vazio)
+          sections.push({
+            ...formTema,
+            lessons: formTema.lessons || []
+          });
         }
         
         modulos[moduloIndex] = { ...modulos[moduloIndex], sections };
         
-        await academyAPI.cursosConteudo.update(curso._id, {
+        // ✅ Validar e limpar o curso antes de enviar (mas sem filtrar seções sem aulas)
+        const cursoLimpo = validarELimparCurso({
           ...curso,
-          modules: modulos,
+          modules: modulos
+        });
+        
+        await academyAPI.cursosConteudo.update(curso._id, {
+          ...cursoLimpo,
           version: (curso.version || 1) + 1
         });
         
@@ -778,7 +804,8 @@ const AcademyPage = () => {
       }
     } catch (error) {
       console.error('Erro ao salvar tema:', error);
-      mostrarSnackbar('Erro ao salvar tema', 'error');
+      const errorMessage = error.response?.data?.error || error.message || 'Erro ao salvar tema';
+      mostrarSnackbar(`Erro ao salvar tema: ${errorMessage}`, 'error');
     }
   };
   
