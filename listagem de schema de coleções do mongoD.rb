@@ -218,7 +218,7 @@ listagem de schema de coleções do mongoDB
   updatedAt: Date                 // Data de atualização
   }
   
-   //schema console_config.module_status
+  //schema console_config.module_status
   {
   _id: "status",
   _trabalhador: String,    // Status do Crédito Trabalhador
@@ -226,11 +226,11 @@ listagem de schema de coleções do mongoDB
   _antecipacao: String,    // Status da Antecipação
   _pgtoAntecip: String,    // Status do Pagamento Antecipado
   _irpf: String,           // Status do Módulo IRPF
-  _seguro: String,         // Status do Módulo Seguro
+  _seguroCred: String,         // Status do Módulo Seguro Prestamista
+  _seguroCel: String,         // Status do Módulo Seguro Celular
   createdAt: Date,         // Data de criação
   updatedAt: Date          // Data de atualização
   }
-  
   
   //🗄️ Schema de Ping de Usuário
   // de login ou refresh
