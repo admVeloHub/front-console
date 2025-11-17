@@ -1,5 +1,63 @@
 # Deploy Log - Console de Conteúdo VeloHub
-<!-- VERSION: v1.38.0 | DATE: 2025-11-14 | AUTHOR: VeloHub Development Team -->
+<!-- VERSION: v1.39.0 | DATE: 2025-11-17 | AUTHOR: VeloHub Development Team -->
+
+## Push GitHub - Separar Módulo Seguro em Seguro Cred. e Seguro Cel - 2025-11-17 16:26
+
+### Informações do Push
+- **Tipo:** Push GitHub
+- **Data/Hora:** 2025-11-17 16:26 BRT
+- **Versão:** v1.39.0
+- **Status:** Concluído
+- **Commit:** bca1810
+
+### Arquivos Modificados
+1. `src/pages/ServicosPage.jsx` - v1.1.0 → v1.2.0
+   - Renomeado "Módulo Seguro" para "Seguro Cred."
+   - Adicionado novo card "Seguro Cel"
+   - Atualizado array de serviços de 6 para 7 módulos
+   - Implementada função `convertBackendToFrontend()` para conversão automática de dados
+   - Implementada função `getValue()` para validação de valores
+   - Atualizada função `fetchModuleStatus()` com detecção automática de formato
+   - Atualizada função `saveAllStatus()` para incluir novos campos 'seguro-prestamista' e 'seguro-celular'
+   - Movido botão "Salvar Alterações" para o header (canto superior direito)
+   - Redimensionado botão "Salvar Alterações" para ficar homogêneo com botão "Voltar"
+   - Adicionados logs detalhados para debug
+
+2. `listagem de schema de coleções do mongoD.rb` - v2.0.1
+   - Schema atualizado com novos campos `_seguroCred` e `_seguroCel`
+
+### Descrição
+Atualização do módulo de serviços para separar o módulo de seguro em dois módulos distintos:
+
+**🔧 Alterações Implementadas:**
+- **Separação de Módulos:** "Módulo Seguro" dividido em "Seguro Cred." (Seguro Prestamista) e "Seguro Cel" (Seguro Celular)
+- **Total de Módulos:** Aumentado de 6 para 7 módulos
+- **Conversão Automática:** Função que detecta automaticamente o formato dos dados (schema MongoDB ou frontend)
+- **Validação de Dados:** Função auxiliar para garantir valores válidos ('on', 'off', 'revisao')
+- **Interface:** Botão "Salvar Alterações" reposicionado no header, alinhado com botão "Voltar"
+
+**📋 Mapeamento Frontend ↔ Backend:**
+- `seguro-prestamista` ↔ `_seguroCred` (Status do Módulo Seguro Prestamista)
+- `seguro-celular` ↔ `_seguroCel` (Status do Módulo Seguro Celular)
+
+**🐛 Correções:**
+- Melhorado tratamento de dados do backend para evitar que todos apareçam como inativos
+- Adicionada detecção automática de formato de resposta
+- Implementada busca em propriedades aninhadas para extrair dados corretamente
+- Adicionados logs detalhados para facilitar debug
+
+### Impacto
+- ✅ **Funcionalidade Expandida** - Agora são 7 módulos separados
+- ✅ **Interface Melhorada** - Botão salvar reposicionado e redimensionado
+- ✅ **Robustez Aumentada** - Conversão automática de dados com validação
+- ✅ **Debug Facilitado** - Logs detalhados para troubleshooting
+
+### Próximos Passos
+1. Testar carregamento de status dos módulos do MongoDB
+2. Validar que conversão de dados funciona corretamente
+3. Verificar logs do console para garantir que dados estão sendo carregados
+
+---
 
 ## Push GitHub - Permitir Salvar Módulos e Temas sem Aulas - 2025-11-14 16:48
 
