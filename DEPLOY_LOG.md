@@ -1,5 +1,61 @@
 # Deploy Log - Console de Conteúdo VeloHub
-<!-- VERSION: v1.39.0 | DATE: 2025-11-17 | AUTHOR: VeloHub Development Team -->
+<!-- VERSION: v1.40.0 | DATE: 2024-12-19 | AUTHOR: VeloHub Development Team -->
+
+## Push GitHub - Adicionar campo Gênero nos chamados internos e ajustes de layout - 2024-12-19
+
+### Informações do Push
+- **Tipo:** Push GitHub
+- **Data/Hora:** 2024-12-19
+- **Versão:** v1.40.0
+- **Status:** Concluído
+- **Commit:** f2d8c33
+
+### Arquivos Modificados
+1. `src/pages/ChamadosInternosPage.jsx` - v3.2.0 → v3.3.3
+   - Adicionada coluna Gênero na tabela (3ª posição entre Data e Tipo)
+   - Limitação do nome do solicitante a 2 palavras
+   - Redução de fonte para 0.75rem em todas as células da tabela
+   - Reorganização do modal de ticket não atribuído (grid 2 colunas)
+   - Adição de campo Gênero na linha 4 coluna 2
+   - Movido Status para linha 5 coluna 2
+   - Redução de fonte em Ocorrência e Corpo da Mensagem para 0.75rem
+   - Renomeado "Situação" para "Status" no cabeçalho das tabelas
+
+2. `src/components/ModalAtribuido.jsx` - v1.1.0 → v1.2.0
+   - Reorganização do grid: Linha 1 expandida para 5 colunas (última vazia)
+   - Linha 2 mantida com 5 colunas (Gênero, Tipo, Direcionamento, Processo, Status)
+   - Redução do tamanho do campo Processo (maxWidth: 200px)
+   - Redução de fonte do campo Processo para 0.7rem
+   - Ajuste de padding para mover colunas para a esquerda
+
+### Descrição
+Implementação completa do campo Gênero nos chamados internos com melhorias de layout e compactação visual:
+
+**🔧 Alterações Implementadas:**
+- **Tabela Principal:** Adicionada coluna Gênero na 3ª posição (entre Data e Tipo)
+- **Limitação de Nome:** Solicitante limitado a 2 palavras para evitar sobreposição
+- **Redução de Fontes:** Tabela com fonte 0.75rem, mantendo conteúdo em linha única
+- **Modal Não Atribuído:** Grid reorganizado conforme especificação (5 linhas, 2 colunas)
+- **Modal Atribuído:** Grid reorganizado (Linha 1: 5 cols, Linha 2: 5 cols)
+- **Campo Processo:** Reduzido e com fonte menor (0.7rem)
+- **Alinhamento:** Colunas movidas para a esquerda com padding ajustado
+
+**📋 Estrutura dos Modais:**
+- **Modal Não Atribuído:** L1=Solicitante|Email, L2=Data|SLA, L3=Direcionamento|Atribuído, L4=Processo|Gênero, L5=Status|(vazio)
+- **Modal Atribuído:** L1=Solicitante|Email|Data|SLA|(vazio), L2=Gênero|Tipo|Direcionamento|Processo|Status, L3=Ocorrência (full width)
+
+**🎨 Melhorias Visuais:**
+- Fontes reduzidas para melhor compactação (0.75rem tabela, 0.7rem modais)
+- Campos com white-space: nowrap e text-overflow: ellipsis
+- Alinhamento otimizado com padding reduzido
+
+### Impacto
+- ✅ **Funcionalidade Expandida** - Campo Gênero visível em todas as visualizações
+- ✅ **Interface Melhorada** - Layout mais compacto e organizado
+- ✅ **Usabilidade** - Informações mais acessíveis e legíveis
+- ✅ **Consistência** - Padrão visual unificado entre tabelas e modais
+
+---
 
 ## Push GitHub - Separar Módulo Seguro em Seguro Cred. e Seguro Cel - 2025-11-17 16:26
 
