@@ -1,3 +1,4 @@
+// VERSION: v1.2.0 | DATE: 2024-12-19 | AUTHOR: VeloHub Development Team
 import React, { useState, useEffect } from 'react';
 import {
   Dialog,
@@ -278,7 +279,7 @@ const ModalAtribuido = ({ ticket, open, onClose, onUpdate }) => {
             background: 'transparent',
             border: '1.5px solid var(--blue-dark)',
             borderRadius: '8px',
-            padding: '16px',
+            padding: '16px 8px 16px 8px',
             margin: '8px',
             flexShrink: 0,
             // Aplica 0.9em a todos os textos do container superior
@@ -286,15 +287,15 @@ const ModalAtribuido = ({ ticket, open, onClose, onUpdate }) => {
               fontSize: '0.9em !important'
             }
           }}>
+            {/* Linha 1: 5 colunas */}
             <Box sx={{
               display: 'grid',
-              gridTemplateColumns: '1fr 1fr 1fr 1fr',
+              gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
               gap: 2,
-              mb: 0,
+              mb: 2,
               width: '100%',
               justifyContent: 'flex-start'
             }}>
-              {/* Linha 1 */}
               <Box>
                 <Typography variant="subtitle2" sx={{ fontFamily: 'Poppins', fontWeight: 600, mb: 0.5 }}>
                   Solicitante:
@@ -327,7 +328,35 @@ const ModalAtribuido = ({ ticket, open, onClose, onUpdate }) => {
                   {calculateSLA(ticket.createdAt)}
                 </Typography>
               </Box>
-              {/* Linha 2 correta */}
+              <Box>
+                {/* Vazio - coluna 5 da linha 1 */}
+              </Box>
+            </Box>
+            {/* Linha 2: 5 colunas */}
+            <Box sx={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
+              gap: 2,
+              mb: 0,
+              width: '100%',
+              justifyContent: 'flex-start'
+            }}>
+              <Box>
+                <Typography variant="subtitle2" sx={{ fontFamily: 'Poppins', fontWeight: 600, mb: 0.5 }}>
+                  Gênero:
+                </Typography>
+                <Typography sx={{ fontFamily: 'Poppins' }}>
+                  {ticket._genero || 'Não informado'}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography variant="subtitle2" sx={{ fontFamily: 'Poppins', fontWeight: 600, mb: 0.5 }}>
+                  Tipo:
+                </Typography>
+                <Typography sx={{ fontFamily: 'Poppins' }}>
+                  {ticket._tipo || 'Não informado'}
+                </Typography>
+              </Box>
               <Box>
                 <Typography variant="subtitle2" sx={{ fontFamily: 'Poppins', fontWeight: 600, mb: 0.5 }}>
                   {ticket._genero === 'conteudos' ? 'Assunto/Direcionamento:' : 'Direcionamento:'}
@@ -338,32 +367,26 @@ const ModalAtribuido = ({ ticket, open, onClose, onUpdate }) => {
               </Box>
               <Box>
                 <Typography variant="subtitle2" sx={{ fontFamily: 'Poppins', fontWeight: 600, mb: 0.5 }}>
-                  Atribuído:
-                </Typography>
-                <Typography sx={{ fontFamily: 'Poppins' }}>
-                  {ticket._atribuido || 'Não atribuído'}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="subtitle2" sx={{ fontFamily: 'Poppins', fontWeight: 600, mb: 0.5 }}>
                   Processo:
                 </Typography>
-                <FormControl fullWidth size="small">
+                <FormControl size="small" sx={{ width: '100%', maxWidth: '200px' }}>
                   <Select
                     value={editedProcess}
                     onChange={(e) => setEditedProcess(e.target.value)}
                     disabled={isLoading}
                     sx={{
                       fontFamily: 'Poppins',
+                      fontSize: '0.7rem',
                       '& .MuiOutlinedInput-root': {
-                        fontFamily: 'Poppins'
+                        fontFamily: 'Poppins',
+                        fontSize: '0.7rem'
                       }
                     }}
                   >
-                    <MenuItem value="Aprovação do Gestor">Aprovação do Gestor</MenuItem>
-                    <MenuItem value="Avaliação Viabilidade">Avaliação Viabilidade</MenuItem>
-                    <MenuItem value="Em Desenvolvimento">Em Desenvolvimento</MenuItem>
-                    <MenuItem value="Em Teste">Em Teste</MenuItem>
+                    <MenuItem value="Aprovação do Gestor" sx={{ fontSize: '0.7rem' }}>Aprovação do Gestor</MenuItem>
+                    <MenuItem value="Avaliação Viabilidade" sx={{ fontSize: '0.7rem' }}>Avaliação Viabilidade</MenuItem>
+                    <MenuItem value="Em Desenvolvimento" sx={{ fontSize: '0.7rem' }}>Em Desenvolvimento</MenuItem>
+                    <MenuItem value="Em Teste" sx={{ fontSize: '0.7rem' }}>Em Teste</MenuItem>
                   </Select>
                 </FormControl>
               </Box>
@@ -384,10 +407,6 @@ const ModalAtribuido = ({ ticket, open, onClose, onUpdate }) => {
                   variant="filled"
                 />
               </Box>
-
-              {/* Linha 2 removida (duplicada) */}
-              {/* Botões removidos daqui para reposicionamento */}
-
             </Box>
             {/* Removido bloco excedente de botões duplicados */}
 
